@@ -16,14 +16,12 @@
             .then(response => { return response.json(); })
             .then(pdata => {
                 let get = document.getElementById("pulpitSelect");
-                let str = '';
                 pdata.forEach(element => {
-                    str += ('<option>' + element.pulpit + '<option/>');  
+                    let opt = document.createElement("option");
+                    opt.value = element.pulpit;
+                    opt.text = element.pulpit;
+                    get.add(opt, null) 
                 });
-                console.log(str)
-                console.log(get.innerHTML);
-                get.innerHTML = str;
-                console.log(get.innerHTML);
             });
         })
     </script>
@@ -60,7 +58,7 @@
                 <form>
                     <div class="form-group">
                         <label for="uPulpit">PULPIT</label>
-                        <select id="pulpitSelect" onchange="pulpitChanged()"></select>
+                        <select class="form-select" id="pulpitSelect" onchange="pulpitChanged()"></select>
                     </div>
                         <div class="form-group">
                         <label for="uPulpitName">PULPIT_NAME</label>

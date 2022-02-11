@@ -4,7 +4,7 @@ const Pulpit = db.pulpits;
 exports.findAll = (req, res) => {
     Pulpit.findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving pulpits." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving pulpits." }); });
 };
 
 exports.get = (req, res) => {
@@ -12,7 +12,7 @@ exports.get = (req, res) => {
 
     Pulpit.findAll({where: { pulpit: id }})
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving pulpits." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving pulpits." }); });
 }
 
 exports.create = (req, res) => {
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
 
 	Pulpit.create(pulpit)
     .then((data) => { res.send(data); })
-    .catch((err) => { console.log(err); res.status(500).send({	message: err.message || "Some error occurred while creating the Pulpit."});});
+    .catch((err) => { console.log(err); res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Pulpit."});});
 };
 
 
@@ -43,12 +43,14 @@ exports.update = (req, res) => {
 }
 
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [del] = await Pulpit.findAll({where: { pulpit: id }});
 
   Pulpit.destroy({ where: { pulpit: id } })
   .then(num => {
-    if (num == 1) {  res.send({  message: "Pulpit was deleted successfully!"});  } 
+    if (num == 1) {  res.send({  message: `Pulpit was deleted successfully: ${del.dataValues.pulpit}`});  } 
     else { res.send({ message: `Cannot delete Pulpit with id=${id}. Maybe Pulpit was not found!`}); }
   })
   .catch(err => { res.status(500).send({ message: "Could not delete Pulpit with id=" + id});});

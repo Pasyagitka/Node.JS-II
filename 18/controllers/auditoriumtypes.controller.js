@@ -5,7 +5,7 @@ const AuditoriumTypes = db.auditoriumtypes;
 exports.findAll = (req, res) => {
     AuditoriumTypes.findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving auditorium types." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving auditorium types." }); });
 };
 
 exports.create = (req, res) => {
@@ -21,7 +21,7 @@ exports.create = (req, res) => {
 
 	AuditoriumTypes.create(auditoriumtype)
     .then((data) => { res.send(data); })
-    .catch((err) => { console.log(err); res.status(500).send({message: err.message || "Some error occurred while creating the AuditoriumTypes."});});
+    .catch((err) => { console.log(err); res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the AuditoriumTypes."});});
 };
 
 
@@ -37,12 +37,14 @@ exports.update = (req, res) => {
     .catch(err => { console.log(err); res.status(500).send({ message: "Error updating AuditoriumTypes with id=" + req.body.type}); });
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [del] = await AuditoriumTypes.findAll({where: { auditorium_type: id }});
 
   AuditoriumTypes.destroy({ where: { auditorium_type: id } })
   .then(num => {
-    if (num == 1) {  res.send({  message: "AuditoriumTypes was deleted successfully!"});  } 
+    if (num == 1) {  res.send({  message: `AuditoriumTypes was deleted successfully: ${del.dataValues.auditorium_type}`});  } 
     else { res.send({ message: `Cannot delete AuditoriumTypes with id=${id}. Maybe AuditoriumTypes was not found!`}); }
   })
   .catch(err => { console.log(err); res.status(500).send({ message: "Could not delete AuditoriumTypes with id=" + id});});
