@@ -4,7 +4,7 @@ const Faculty = db.faculties;
 exports.getAll = (req, res) => {
 	Faculty.findAll()
 		.then((data) => { res.send(data); })
-		.catch((err) => { res.status(500).send({ message: err.message || "Some error occurred while retrieving faculties."});});
+		.catch((err) => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving faculties."});});
 };
 
 exports.getPulpits = (req, res) => {
@@ -65,7 +65,7 @@ exports.create = (req, res) => {
 
 	Faculty.create(faculty)
 		.then((data) => {	res.send(data); })
-		.catch((err) => {res.status(500).send({	message: err.message || "Some error occurred while creating the Faculty."});
+		.catch((err) => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Faculty."});
 	});
 };
 
@@ -80,12 +80,14 @@ exports.update = (req, res) => {
 }
 
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [delFac] = await Faculty.findAll({where: { faculty: id }});
   
   Faculty.destroy({ where: { faculty: id } })
   .then(num => {
-    if (num == 1) { res.send({  message: "Faculty was deleted successfully!"});} 
+    if (num == 1) { res.send({  message: `Faculty was deleted successfully: ${delFac.dataValues.faculty}`});} 
 	else {res.send({ message: `Cannot delete Faculty with id=${id}. Maybe Faculty was not found!`});}
   })
   .catch(err => { console.log(err); res.status(500).send({ message: "Could not delete Faculty with id=" + id});});

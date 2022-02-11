@@ -7,6 +7,14 @@ exports.findAll = (req, res) => {
     .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving pulpits." }); });
 };
 
+exports.get = (req, res) => {
+    const id = req.params.xyz;
+
+    Pulpit.findAll({where: { pulpit: id }})
+    .then(data => { res.send(data); })
+    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving pulpits." }); });
+}
+
 exports.create = (req, res) => {
 	if (!req.body.pulpit) {
 		res.status(400).send({ message: "Content can not be empty!"});
