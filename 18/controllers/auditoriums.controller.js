@@ -4,13 +4,13 @@ const Auditorium = db.auditoriums;
 exports.findAll = (req, res) => {
     Auditorium.findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving auditoriums." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving auditoriums." }); });
 };
 
 exports.auditoriumsgt60 = (req, res) => {
     Auditorium.scope('auditoriumsgt60').findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving auditoriums (scope)." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving auditoriums (scope)." }); });
 }
 
 exports.create = (req, res) => {
@@ -24,10 +24,11 @@ exports.create = (req, res) => {
 		auditorium_type: req.body.auditorium_type,
         auditorium_capacity: req.body.capacity
 	};
+    console.log(auditorium);
 
 	Auditorium.create(auditorium)
     .then((data) => { res.send(data); })
-    .catch((err) => { res.status(500).send({message: err.message || "Some error occurred while creating the Auditorium."});});
+    .catch((err) => { res.status(500).send({message: `${err?.message}: ${err?.errors[0]?.message}: ${err?.errors[0]?.value}` || "Some error occurred while creating the Auditorium."});});
 };
 
 
@@ -48,12 +49,14 @@ exports.update = (req, res) => {
     .catch(err => { res.status(500).send({ message: "Error updating Auditorium with id=" + req.body.auditorium}); });
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [del] = await Auditorium.findAll({where: { auditorium: id }});
 
   Auditorium.destroy({ where: { auditorium: id } })
   .then(num => {
-    if (num == 1) {  res.send({  message: "Auditorium was deleted successfully!"});  } 
+    if (num == 1) {  res.send({  message: `Auditorium was deleted successfully: ${del.dataValues.auditorium}}`});  } 
     else { res.send({ message: `Cannot delete Auditorium with id=${id}. Maybe Auditorium was not found!`}); }
   })
   .catch(err => { res.status(500).send({ message: "Could not delete Auditorium with id=" + id});});

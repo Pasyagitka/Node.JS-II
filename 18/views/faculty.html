@@ -5,7 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Suwannaphum">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>Pulpit</title>
+    <script>
+        $(document).ready(function() {
+            fetch('http://localhost:3000/api/pulpits', {method: 'GET'})
+            .then(response => { return response.json(); })
+            .then(pdata => {
+                let get = document.getElementById("pulpitSelect");
+                pdata.forEach(element => {
+                    let opt = document.createElement("option");
+                    opt.value = element.pulpit;
+                    opt.text = element.pulpit;
+                    get.add(opt, null) 
+                });
+            });
+        })
+    </script>
 </head>
 <body>
     <div class="container"></br>        
@@ -39,7 +58,7 @@
                 <form>
                     <div class="form-group">
                         <label for="uPulpit">PULPIT</label>
-                        <input type="text" class="form-control" id="uPulpit">
+                        <select class="form-select" id="pulpitSelect" onchange="pulpitChanged()"></select>
                     </div>
                         <div class="form-group">
                         <label for="uPulpitName">PULPIT_NAME</label>
@@ -68,8 +87,19 @@
     </div>
 
     <script type="text/javascript">
+        function pulpitChanged() {
+            let Id = document.getElementById("pulpitSelect").value;
+            fetch(`http://localhost:3000/api/pulpits/${Id}`, {method: 'GET'})
+            .then(response => { return response.json(); })
+            .then(pdata => {
+                pdata.forEach(element => {
+                    document.getElementById("uPulpitName").value = element.pulpit_name;
+                    document.getElementById("uFaculty").value = element.faculty;
+                });
+            });
+        }
         function Get() {
-            fetch('http://localhost:5000/api/pulpits', {method: 'GET'})
+            fetch('http://localhost:3000/api/pulpits', {method: 'GET'})
             .then(response => { return response.json(); })
             .then(pdata => {
                 let get = document.getElementById("result");
@@ -86,25 +116,25 @@
             let Faculty = document.getElementById("iFaculty").value;
             let formdata = JSON.stringify({pulpit: Pulpit, pulpit_name: PulpitName, faculty: Faculty});
   
-            fetch('http://localhost:5000/api/pulpits', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: formdata})
+            fetch('http://localhost:3000/api/pulpits', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: formdata})
             .then(response => { return response.json();})
             .then(pdata => { document.getElementById("result").innerHTML = JSON.stringify(pdata); }).catch(error => {
                 console.log('error', error);
             });
         }
         function Put() {
-            let Pulpit = document.getElementById("uPulpit").value;
+            let Pulpit = document.getElementById("pulpitSelect").value;
             let PulpitName = document.getElementById("uPulpitName").value;
             let Faculty = document.getElementById("uFaculty").value;
             let formdata = JSON.stringify({pulpit: Pulpit, pulpit_name: PulpitName, faculty: Faculty});
            
-            fetch('http://localhost:5000/api/pulpits', { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: formdata})
+            fetch('http://localhost:3000/api/pulpits', { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: formdata})
             .then(response => { return response.json(); })
             .then(pdata => { document.getElementById("result").innerHTML = JSON.stringify(pdata); });
         }
         function Delete() {
             let Id = document.getElementById("dId");
-            fetch(`http://localhost:5000/api/pulpits/${Id.value}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'}})
+            fetch(`http://localhost:3000/api/pulpits/${Id.value}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'}})
             .then(response => {  return response.json(); })
             .then(pdata => {  document.getElementById("result").innerHTML = JSON.stringify(pdata); })
         }

@@ -4,7 +4,7 @@ const Teacher = db.teachers;
 exports.findAll = (req, res) => {
     Teacher.findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving teachers." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving teachers." }); });
 };
 
 
@@ -23,7 +23,7 @@ exports.create = (req, res) => {
 
 	Teacher.create(teacher)
     .then((data) => { res.send(data); })
-    .catch((err) => { res.status(500).send({message: err.message || "Some error occurred while creating the Teacher."});});
+    .catch((err) => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Teacher."});});
 };
 
 
@@ -39,12 +39,14 @@ exports.update = (req, res) => {
     .catch(err => { res.status(500).send({ message: "Error updating Teacher with id=" + req.body.teacher}); });
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [del] = await Teacher.findAll({where: { teacher: id }});
 
   Teacher.destroy({ where: { teacher: id } })
   .then(num => {
-    if (num == 1) {  res.send({  message: "Teacher was deleted successfully!"});  } 
+    if (num == 1) {  res.send({  message: `Teacher was deleted successfully: ${del.dataValues.teacher}`});  } 
     else { res.send({ message: `Cannot delete Teacher with id=${id}. Maybe Teacher was not found!`}); }
   })
   .catch(err => { res.status(500).send({ message: "Could not delete Teacher with id=" + id});});

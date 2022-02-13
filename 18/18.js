@@ -2,6 +2,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 //var cors = require('cors')
 
+
 const app = express();
 //app.use(cors());
 
@@ -25,6 +26,6 @@ require("./routes/subjects.routes")(app);
 require("./routes/auditoriums.routes")(app);
 require("./routes/auditoriumtypes.routes")(app);
 
-app.listen(5000, () => { console.log(`App listening`)}) 
+app.listen(3000, () => { console.log(`App listening`)}) 
 
 module.exports = app;

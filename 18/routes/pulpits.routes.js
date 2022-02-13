@@ -3,6 +3,7 @@ module.exports = app => {
     let router = require("express").Router();
   
     router.get("/", pulpits.findAll);
+    router.get("/:xyz", pulpits.get);   
     router.post("/", pulpits.create);
     router.put("/", pulpits.update);
     router.delete("/:xyz", pulpits.delete);

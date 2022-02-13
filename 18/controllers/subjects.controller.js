@@ -4,7 +4,7 @@ const Subject = db.subjects;
 exports.findAll = (req, res) => {
     Subject.findAll()
     .then(data => { res.send(data); })
-    .catch(err => { res.status(500).send({ message: err.message || "Some error occurred while retrieving subjects." }); });
+    .catch(err => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while retrieving subjects." }); });
 };
 
 
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 
 	Subject.create(subject)
     .then((data) => { res.send(data); })
-    .catch((err) => { console.log(err); res.status(500).send({message: err.message || "Some error occurred while creating the Subject."});});
+    .catch((err) => { console.log(err); res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Subject."});});
 };
 
 
@@ -38,12 +38,14 @@ exports.update = (req, res) => {
     .catch(err => { console.log(err); res.status(500).send({ message: "Error updating Subject with id=" + req.body.subject}); });
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.xyz;
+
+  let [del] = await Subject.findAll({where: { subject: id }});
 
   Subject.destroy({ where: { subject: id } })
   .then(num => {
-    if (num == 1) {  res.send({  message: "Subject was deleted successfully!"});  } 
+    if (num == 1) {  res.send({  message: `Subject was deleted successfully: ${del.dataValues.subject}`});  } 
     else { res.send({ message: `Cannot delete Subject with id=${id}. Maybe Subject was not found!`}); }
   })
   .catch(err => { res.status(500).send({ message: "Could not delete Subject with id=" + id});});
