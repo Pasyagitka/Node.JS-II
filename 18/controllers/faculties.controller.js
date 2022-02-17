@@ -65,7 +65,7 @@ exports.create = (req, res) => {
 
 	Faculty.create(faculty)
 		.then((data) => {	res.send(data); })
-		.catch((err) => { res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Faculty."});
+		.catch((err) => { res.status(500).send({message: `${err.message}` || "Some error occurred while creating the Faculty."});
 	});
 };
 

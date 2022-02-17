@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 
 	Subject.create(subject)
     .then((data) => { res.send(data); })
-    .catch((err) => { console.log(err); res.status(500).send({message: `${err.message}: ${err.errors[0].message}: ${err.errors[0].value}` || "Some error occurred while creating the Subject."});});
+    .catch((err) => { console.log(err); res.status(500).send({message: `${err.message}` || "Some error occurred while creating the Subject."});});
 };
 
 

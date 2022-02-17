@@ -28,7 +28,7 @@ exports.create = (req, res) => {
 
 	Auditorium.create(auditorium)
     .then((data) => { res.send(data); })
-    .catch((err) => { res.status(500).send({message: `${err?.message}: ${err?.errors[0]?.message}: ${err?.errors[0]?.value}` || "Some error occurred while creating the Auditorium."});});
+    .catch((err) => { res.status(500).send({message: `${err.message}` || "Some error occurred while creating the Auditorium."});});
 };
 
 
