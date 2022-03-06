@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 const hbs = require('handlebars');
 const cors = require('cors');
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(cors());
@@ -29,6 +31,6 @@ require("./routes/routes")(app);
 
 app.use((req, res) => res.status(404).render("error"));
 
-app.listen(3000); 
+app.listen(PORT); 
 
 module.exports = app;
