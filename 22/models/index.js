@@ -13,7 +13,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = connection;
 
-db.users = connection.define("users", {
+db.users = connection.define('users', {
     id: {type: Sequelize.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true},
     login: {type: Sequelize.STRING},
     password: {type: Sequelize.STRING}

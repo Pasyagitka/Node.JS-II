@@ -1,0 +1,26 @@
+{
+  "name": "22",
+  "version": "1.0.0",
+  "description": "",
+  "main": "22-01.js",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "redis": "^4.0.6",
+    "sequelize": "^6.17.0",
+    "tedious": "^14.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon 22-01.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
