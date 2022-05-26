@@ -5,7 +5,6 @@ exports.returnForm = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-  res.clearCookie('remember_me');
   req.logout();
   res.redirect('/login');
 };

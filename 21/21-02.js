@@ -14,19 +14,15 @@ const app = express();
 
 app.use(session);
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 app.use(express.json());
 
 
 passport.use(new digestStrategy({qop:'auth'}, (user, done) => {
-    let rc = null;
     let credential = getCredential(trusted, user);
-    console.log(credential)
-    if(!credential) rc = done(null, false);
-    else rc = done(null, credential.login, credential.password);
-    return rc;
+    if(!credential) return done(null, false);
+    else return done(null, credential.login, credential.password);
 }, (params, done) => {
-    console.log('params', params);
     done(null, true);
 }));
 

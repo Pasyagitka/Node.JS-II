@@ -1,4 +1,4 @@
-exports.loginFirst =  (req, res, next)=>  {
+exports.login =  (req, res, next)=>  {
   if (req.session.logout && req.headers['authorization']) {
     req.session.logout = false;
     delete req.headers['authorization'];
@@ -6,21 +6,21 @@ exports.loginFirst =  (req, res, next)=>  {
   next();
 }
 
-exports.loginSecond = (req, res, next) => {
+exports.setLogout = (req, res, next) => {
   if (req.session.logout == undefined) {
     req.session.logout = false;
   }
   next();
 }
 
-exports.loginThird = (req, res, next)=> { 
+exports.loginSuccess = (req, res, next)=> { 
   res.end('Success');
 };
 
 
 exports.logout = (req, res) => {
   req.session.logout = true;
-  delete req.headers['authorization']; //?
+  delete req.headers['authorization'];
   res.redirect('/login');
 };
 

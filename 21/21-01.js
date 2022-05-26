@@ -1,16 +1,31 @@
 const express = require("express");
+const winston = require('winston');
 const passport = require('passport');
 const basicStrategy = require('passport-http').BasicStrategy;
 let trusted = require('./trusted.json');
 let {getCredential, verificatePassword} = require('./verify.js');
 
+const logger = winston.createLogger({
+    levels: winston.config.syslog.levels,
+    transports: [
+      new winston.transports.Console({ level: 'info' }),
+      new winston.transports.File({
+        filename: 'combined.log',
+        level: 'info'
+      })
+    ],
+    format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.simple()
+    )
+});
 
 const session = require('express-session')({
     resave: false,
     saveUninitialized: false,
     secret: '12345'
 });
-//curl -v --user pasyagitka:123 --basic http://127.0.0.1:3000/
+//curl -v --user liza:123 --basic http://127.0.0.1:3000/
 
 const app = express();
 
@@ -21,18 +36,10 @@ app.use(express.json());
 
 
 passport.use(new basicStrategy((user, password, done) => {
-    let rc = null;
     let credential = getCredential(trusted, user);
-    if(!credential) {
-      rc = done(null, false, {message: 'Wrong user name'});
-    }
-    else if(!verificatePassword(credential.password, password)) {
-      rc = done(null, false, {message: 'Wrong user password'});
-    }
-    else  {
-      rc = done(null, user, {message: 'All ok'});
-    }
-    return rc;
+    if(!credential) return done(null, false, {message: 'Wrong username'});
+    if(!verificatePassword(credential.password, password)) return done(null, false, {message: 'Wrong password'});
+    return done(null, user, {message: 'Success'});
 }));
 
 passport.serializeUser((user, done)=> {
@@ -41,7 +48,7 @@ passport.serializeUser((user, done)=> {
 });
 
 passport.deserializeUser((user, done)=> {
-    console.log('DeserializeUser');
+    logger.log('info', 'DeserializeUser');
     done(null, user);
 });
 

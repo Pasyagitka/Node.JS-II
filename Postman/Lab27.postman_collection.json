@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "f70adfee-e438-4456-8e16-7103110ced7e",
+		"name": "Lab27",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17363627"
+	},
+	"item": [
+		{
+			"name": "md",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/md/sdfgh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"md",
+						"sdfgh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rd",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/rd/sdfgh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rd",
+						"sdfgh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/pasyagitka/Desktop/814TDEjLaFL._SL1425_.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/up/qwerty",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"up",
+						"qwerty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "down",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/down/ergerg",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"down",
+						"ergerg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "del",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/pasyagitka/Desktop/814TDEjLaFL._SL1425_.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/del/moved",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"del",
+						"moved"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/pasyagitka/Desktop/814TDEjLaFL._SL1425_.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/copy/ergerg112/moved",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"copy",
+						"ergerg112",
+						"moved"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "move",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/pasyagitka/Desktop/814TDEjLaFL._SL1425_.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/move/moved/copied",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"move",
+						"moved",
+						"copied"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000"
+		}
+	]
+}

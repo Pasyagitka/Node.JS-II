@@ -3,7 +3,7 @@ let router = require("express").Router();
 const controller = require("../controllers/controller.js");
 
 module.exports = app => {
-    router.get("/login", controller.loginFirst,  passport.authenticate('digest', {session: false}), controller.loginSecond, controller.loginThird);
+    router.get("/login", controller.login,  passport.authenticate('digest', {session: false}), controller.setLogout, controller.loginSuccess);
     router.get("/logout", controller.logout);
     router.get("/resource", controller.resource);
 

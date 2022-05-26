@@ -7,6 +7,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.json());
+
 
 require('./routes/token.routes')(app);
 app.use((req, res) => res.status(404).send('Not found'));
