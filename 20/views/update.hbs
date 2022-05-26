@@ -1,0 +1,21 @@
+<div class="list-container">
+    <h2>Обновить запись...</h2>
+    <table>
+        {{#each data}}
+                <tr>
+                    <td>{{>stringbutton classes='btn string-button disabled-button'}}</td>
+                </tr> 
+        {{/each}}
+    </table>
+</div>
+<form action="/update/{{forUpdate.name}}" method="post">
+    <div class="add-field">
+        <input type="text" name="record" placeholder="Новые данные..." class="form-control add-record-input" value="{{forUpdate.name}}, {{forUpdate.number}}">
+    </div>
+    <br/>
+    <input type="submit" class="btn change-button" value="Изменить"> 
+</form>
+<form action="/delete/{{forUpdate.name}}" method="post">
+    <input type="submit" class="btn delete-button" value="Удалить"> 
+</form>
+{{cancelbutton "/"}}

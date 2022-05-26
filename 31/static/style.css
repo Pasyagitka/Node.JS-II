@@ -1,0 +1,45 @@
+.main {
+    width: 550px; 
+    padding: 50px 20px; 
+    margin: 50px auto;
+    border: 3px solid #ededed;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.add-field {
+    width: 450px;
+}
+
+.add-button {
+    background: #b3cdb9; 
+    width: 450px;
+    margin: auto;
+}
+
+.cancel-button {
+    width: 220px; 
+    background: #ededed;
+}
+
+.change-button {
+    background: #b3cdb9;
+    width: 220px;
+}
+
+.delete-button {
+    background: #ededed;
+    width: 220px;
+}
+
+.string-button {
+    width: 450px; 
+    text-align: left; 
+    background: #ededed;
+}
+
+.disabled-button {
+    pointer-events: none;
+    background-color: #acacac;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "21",
+  "version": "1.0.0",
+  "description": "",
+  "main": "21-01.js",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "passport": "^0.5.2",
+    "passport-http": "^0.3.0",
+    "winston": "^3.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "DEBUG=express:* node 21-01.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
